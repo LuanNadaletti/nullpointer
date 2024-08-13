@@ -10,7 +10,7 @@
 - Search & Tags
 - Responsive Design
 
-- ## 🛠️ Technologies
+- ## Technologies
 
 - **Frontend**: React
 - **Backend**: Java Spring Boot
