@@ -1,6 +1,6 @@
 package com.nullpointer.repository;
 
-import com.nullpointer.model.User;
+import com.nullpointer.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

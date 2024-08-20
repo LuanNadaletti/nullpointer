@@ -1,8 +1,10 @@
 package com.nullpointer.service;
 
-import com.nullpointer.model.Question;
+import com.nullpointer.domain.question.Question;
+import com.nullpointer.domain.question.QuestionDTO;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,16 +26,23 @@ public class QuestionService {
     @Autowired
     private QuestionSpecification questionSpecification;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public List<Question> findAllQuestions() {
         return questionRepository.findAll();
     }
 
-    public Question findQuestionById(Long id) {
+    public QuestionDTO findQuestionById(Long id) {
         Optional<Question> question = questionRepository.findById(id);
-        return question.orElseThrow(() -> new RuntimeException("Question not found with id: " + id));
+        if (question.isEmpty()) {
+            throw new RuntimeException("Question not found with id: " + id);
+        }
+
+        return modelMapper.map(question.get(), QuestionDTO.class);
     }
 
-    public Page<Question> findQuestionsWithPagination(
+    public Page<QuestionDTO> findQuestionsWithPagination(
             Optional<String> title,
             Optional<String> author,
             Optional<Date> fromDate,
@@ -52,10 +61,6 @@ public class QuestionService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return questionRepository.findAll(spec, pageable);
-    }
-
-    public long count() {
-        return questionRepository.count();
+        return questionRepository.findAll(spec, pageable).map(question -> modelMapper.map(question, QuestionDTO.class));
     }
 }

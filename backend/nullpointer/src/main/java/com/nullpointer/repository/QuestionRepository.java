@@ -1,6 +1,6 @@
 package com.nullpointer.repository;
 
-import com.nullpointer.model.Question;
+import com.nullpointer.domain.question.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
