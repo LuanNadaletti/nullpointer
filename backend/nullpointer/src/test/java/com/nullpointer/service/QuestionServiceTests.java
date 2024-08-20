@@ -1,6 +1,6 @@
 package com.nullpointer.service;
 
-import com.nullpointer.model.User;
+import com.nullpointer.domain.user.User;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
 package com.nullpointer.specification;
 
-import com.nullpointer.model.Question;
+import com.nullpointer.domain.question.Question;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

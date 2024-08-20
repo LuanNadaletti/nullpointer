@@ -1,6 +1,7 @@
 package com.nullpointer.controller;
 
-import com.nullpointer.model.Question;
+import com.nullpointer.domain.question.Question;
+import com.nullpointer.domain.question.QuestionDTO;
 import com.nullpointer.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ public class QuestionController {
     private QuestionService questionService;
 
     @GetMapping
-    public Page<Question> getQuestions(
+    public Page<QuestionDTO> getQuestionsWithPagination(
             @RequestParam Optional<String> title,
             @RequestParam Optional<String> author,
             @RequestParam Optional<Date> fromDate,
@@ -32,7 +33,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public Question getQuestionById(@PathVariable Long id) {
+    public QuestionDTO getQuestionById(@PathVariable Long id) {
         return questionService.findQuestionById(id);
     }
 }

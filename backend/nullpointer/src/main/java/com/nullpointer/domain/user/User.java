@@ -1,4 +1,4 @@
-package com.nullpointer.model;
+package com.nullpointer.domain.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
