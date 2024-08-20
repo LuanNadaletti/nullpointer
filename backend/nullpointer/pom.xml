@@ -116,6 +116,19 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>10.17.1</version>
+
+                <configuration>
+                    <user>postgres</user>
+                    <password>postgres</password>
+                    <url>jdbc:postgresql://localhost:5432/nullpointer_db</url>
+                    <cleanDisabled>false</cleanDisabled>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
