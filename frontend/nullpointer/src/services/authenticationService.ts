@@ -4,7 +4,7 @@ import SignUpModel from "../models/signUpModel";
 
 export function signUp(signUpModel: SignUpModel): Promise<string> {
   return api
-    .post("/auth/signup", signUpModel)
+    .post("/users/register", signUpModel)
     .then((response) => {
       const token = response.data;
 

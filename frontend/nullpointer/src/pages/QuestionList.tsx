@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import QuestionModel from "../models/question";
-import { getAllQuestions } from "../services/questionService";
-import Question from "../components/Question";
-import QuestionFilters from "../models/questionFilters";
 import Filter from "../components/Filter";
+import Question from "../components/Question";
+import QuestionModel from "../models/question";
+import QuestionFilters from "../models/questionFilters";
+import { getAllQuestions } from "../services/questionService";
 
 const QuestionList = () => {
   const [questions, setQuestions] = useState<QuestionModel[]>([]);
