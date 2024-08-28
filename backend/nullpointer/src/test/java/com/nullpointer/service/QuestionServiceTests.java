@@ -1,5 +1,6 @@
 package com.nullpointer.service;
 
+import com.nullpointer.domain.user.Role;
 import com.nullpointer.domain.user.User;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
@@ -57,6 +58,6 @@ public class QuestionServiceTests {
      */
 
     private User createMockUser() {
-        return new User(1L, "TestUser", "testUser@email.com", "testUserPassword", new Date());
+        return new User(1L, "TestUser", "testUser@email.com", "testUserPassword", new Date(), new Role());
     }
 }

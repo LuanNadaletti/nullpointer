@@ -33,4 +33,8 @@ public class User {
     @NotNull
     @Column(name = "registration_date")
     private Date registrationDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 }
