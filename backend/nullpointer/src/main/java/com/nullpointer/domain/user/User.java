@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Data
@@ -35,7 +34,7 @@ public class User {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id",  referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 }
