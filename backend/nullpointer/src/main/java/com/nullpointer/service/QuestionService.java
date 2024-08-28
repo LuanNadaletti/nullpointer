@@ -63,4 +63,10 @@ public class QuestionService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return questionRepository.findAll(spec, pageable).map(question -> modelMapper.map(question, QuestionDTO.class));
     }
+
+    public QuestionDTO createQuestion(QuestionDTO questionDTO) {
+        Question question = modelMapper.map(questionDTO, Question.class);
+        question = questionRepository.save(question);
+        return modelMapper.map(question, QuestionDTO.class);
+    }
 }

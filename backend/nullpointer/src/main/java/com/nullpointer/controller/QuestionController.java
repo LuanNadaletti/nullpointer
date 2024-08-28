@@ -1,11 +1,10 @@
 package com.nullpointer.controller;
 
-import com.nullpointer.domain.question.Question;
 import com.nullpointer.domain.question.QuestionDTO;
 import com.nullpointer.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -36,5 +35,11 @@ public class QuestionController {
     @GetMapping("/{id}")
     public QuestionDTO getQuestionById(@PathVariable Long id) {
         return questionService.findQuestionById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO) {
+        QuestionDTO question = questionService.createQuestion(questionDTO);
+        return ResponseEntity.ok(question);
     }
 }
