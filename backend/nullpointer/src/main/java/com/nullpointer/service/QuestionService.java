@@ -2,6 +2,7 @@ package com.nullpointer.service;
 
 import com.nullpointer.domain.question.Question;
 import com.nullpointer.domain.question.QuestionDTO;
+import com.nullpointer.domain.user.User;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
 import org.modelmapper.ModelMapper;
@@ -65,7 +66,9 @@ public class QuestionService {
     }
 
     public QuestionDTO createQuestion(QuestionDTO questionDTO) {
+        User user = modelMapper.map(questionDTO.getUser(), User.class);
         Question question = modelMapper.map(questionDTO, Question.class);
+        question.setUser(user);
         question = questionRepository.save(question);
         return modelMapper.map(question, QuestionDTO.class);
     }

@@ -2,6 +2,7 @@ package com.nullpointer.controller;
 
 import com.nullpointer.domain.question.QuestionDTO;
 import com.nullpointer.service.QuestionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class QuestionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createQuestion(@RequestBody QuestionDTO questionDTO) {
+    public ResponseEntity<?> createQuestion(@RequestBody @Valid QuestionDTO questionDTO) {
         QuestionDTO question = questionService.createQuestion(questionDTO);
         return ResponseEntity.ok(question);
     }
