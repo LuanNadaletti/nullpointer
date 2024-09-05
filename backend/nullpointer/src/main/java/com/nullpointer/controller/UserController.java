@@ -1,11 +1,13 @@
 package com.nullpointer.controller;
 
+import com.nullpointer.config.exception.UserAlreadyExistsException;
 import com.nullpointer.domain.user.JwtRequest;
 import com.nullpointer.domain.user.RegistrationRequest;
 import com.nullpointer.security.JwtTokenUtil;
 import com.nullpointer.service.CustomUserDetailsService;
 import com.nullpointer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +34,11 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegistrationRequest registrationRequest) {
-        userService.register(registrationRequest);
+        try {
+            userService.register(registrationRequest);
+        } catch (DataIntegrityViolationException e) {
+            throw new UserAlreadyExistsException("Username " + registrationRequest.getUsername() + " is already taken.");
+        }
         return ResponseEntity.ok("User registered successfully");
     }
 
