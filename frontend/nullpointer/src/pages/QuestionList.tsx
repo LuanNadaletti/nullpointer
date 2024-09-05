@@ -18,7 +18,7 @@ const QuestionList = () => {
     getAllQuestions(filters)
       .then((questionsResponse) => {
         setQuestions(questionsResponse.content);
-        setQuestionCounter(questionsResponse.totalElements);
+        setQuestionCounter(questionsResponse.totalElements | 0);
       })
       .catch((error) => {
         console.error(error);

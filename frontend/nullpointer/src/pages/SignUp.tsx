@@ -1,21 +1,31 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import SignUpModel from "../models/signUpModel";
 import { signUp } from "../services/authenticationService";
 import { required, validateEmail } from "../validators/validators";
 
-const SignUp = () => {
+const SignUp: React.FC = () => {
   const formMethods = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = formMethods.handleSubmit((data: FieldValues) => {
+  const onSubmit = formMethods.handleSubmit(async (data: FieldValues) => {
     const model: SignUpModel = {
       username: data.username,
       email: data.email,
       password: data.password,
     };
 
-    signUp(model);
+    try {
+      await signUp(model);
+      navigate('/login');
+    } catch (error: any) {
+      formMethods.setError('username', {
+        type: 'manual',
+        message: 'Username already taken'
+      });
+    }
   });
 
   return (
