@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 public class UserDTO {
-    private long id;
+    private Long id;
     @NotEmpty private String username;
     @NotEmpty private String email;
     @NotNull @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") private Date registrationDate;

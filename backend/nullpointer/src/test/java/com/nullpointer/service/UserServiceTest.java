@@ -3,6 +3,7 @@ package com.nullpointer.service;
 import com.nullpointer.domain.user.RegistrationRequest;
 import com.nullpointer.domain.user.Role;
 import com.nullpointer.domain.user.User;
+import com.nullpointer.domain.user.UserDTO;
 import com.nullpointer.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -54,13 +55,11 @@ class UserServiceTest {
         when(passwordEncoder.encode(eq("password"))).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
-        User result = userService.register(registrationRequest);
+        UserDTO result = userService.register(registrationRequest);
         
         assertNotNull(result);
-        assertEquals("encodedPassword", result.getPassword());
         assertEquals("testuser", result.getUsername());
         assertEquals("test@example.com", result.getEmail());
-        assertEquals(1L, result.getRole().getId());
         assertNotNull(result.getRegistrationDate());
 
         verify(modelMapper, times(1)).map(eq(registrationRequest), eq(User.class));

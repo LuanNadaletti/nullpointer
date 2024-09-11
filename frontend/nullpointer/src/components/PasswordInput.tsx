@@ -6,6 +6,7 @@ interface Props {
   id: string;
   label: string;
   placeholder: string;
+  showPasswordStrength: boolean;
 }
 
 const PasswordInput = (props: Props) => {
@@ -61,7 +62,9 @@ const PasswordInput = (props: Props) => {
         </div>
       </div>
 
-      <PasswordPower power={passwordPower} />
+      {props.showPasswordStrength && (
+        <PasswordPower power={passwordPower} />
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import SignUpModel from "../models/signUpModel";
 import { signUp } from "../services/authenticationService";
 import { required, validateEmail } from "../validators/validators";
 
-const SignUp: React.FC = () => {
+const Register: React.FC = () => {
   const formMethods = useForm();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
     } catch (error: any) {
       formMethods.setError('username', {
         type: 'manual',
-        message: 'Username already taken'
+        message: 'username already taken'
       });
     }
   });
@@ -73,6 +73,7 @@ const SignUp: React.FC = () => {
                 id="password"
                 label="Password"
                 placeholder="Insert your password"
+                showPasswordStrength={true}
               />
             </div>
 
@@ -89,4 +90,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Register;

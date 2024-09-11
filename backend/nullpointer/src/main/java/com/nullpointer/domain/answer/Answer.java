@@ -1,5 +1,7 @@
 package com.nullpointer.domain.answer;
 
+import com.nullpointer.domain.question.Question;
+import com.nullpointer.domain.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +19,14 @@ public class Answer {
     private Long id;
 
     @NotNull
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     @NotNull
-    @Column(name = "question_id")
-    private Integer questionId;
+    @ManyToOne
+    @JoinColumn(name = "question_id", referencedColumnName = "id")
+    private Question question;
 
     @NotEmpty
     @Column(name = "answer_text")

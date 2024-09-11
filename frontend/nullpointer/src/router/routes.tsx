@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../pages/ErrorPage";
 import Root from "../pages/Root";
-import SignUp from "../pages/SignUp";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
 import QuestionList from "../pages/QuestionList";
 
 export const router = createBrowserRouter([
@@ -11,8 +12,8 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "", element: <QuestionList /> },
-      { path: "signup", element: <SignUp /> },
-      { path: "login", element: <p>login</p> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
     ],
   },
 ]);
