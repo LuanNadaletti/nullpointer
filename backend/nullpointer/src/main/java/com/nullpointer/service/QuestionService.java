@@ -1,8 +1,10 @@
 package com.nullpointer.service;
 
+import com.nullpointer.domain.question.AskQuestionDTO;
 import com.nullpointer.domain.question.Question;
 import com.nullpointer.domain.question.QuestionDTO;
 import com.nullpointer.domain.user.User;
+import com.nullpointer.domain.user.UserDTO;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
 import org.modelmapper.ModelMapper;
@@ -65,11 +67,13 @@ public class QuestionService {
         return questionRepository.findAll(spec, pageable).map(question -> modelMapper.map(question, QuestionDTO.class));
     }
 
-    public QuestionDTO createQuestion(QuestionDTO questionDTO) {
-        User user = modelMapper.map(questionDTO.getUser(), User.class);
+    public QuestionDTO createQuestion(AskQuestionDTO questionDTO, UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
         Question question = modelMapper.map(questionDTO, Question.class);
         question.setUser(user);
+        question.setCreationDate(new Date());
         question = questionRepository.save(question);
+
         return modelMapper.map(question, QuestionDTO.class);
     }
 }

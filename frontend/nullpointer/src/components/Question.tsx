@@ -1,11 +1,11 @@
-import QuestionModel from "../models/question";
+import QuestionModel from "../models/question/question";
 import { getTimeAgoText } from "../utils/timeAgo";
 
-interface Props {
+interface QuestionProps {
   question: QuestionModel;
 }
 
-const Question = ({ question }: Props) => {
+const Question: React.FC<QuestionProps> = ({ question }: QuestionProps) => {
   return (
     <div className="border-b-2 border-b-slate-100 p-4 flex">
       <div className="w-24 text-gray-500 text-sm mr-3 text-right">

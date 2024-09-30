@@ -3,10 +3,12 @@ package com.nullpointer.security;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,20 +30,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
-
-        String username = null;
+        Cookie[] cookies = request.getCookies();
         String jwtToken = null;
 
-        if (requestTokenHeader == null || requestTokenHeader.isBlank() || !requestTokenHeader.startsWith("Bearer ")) {
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (JwtTokenUtil.JWT_COOKIE_NAME.equals(cookie.getName())) {
+                    jwtToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        String username = null;
+
+        if (jwtToken == null || jwtToken.isBlank()) {
             chain.doFilter(request, response);
             return;
         }
 
-        jwtToken = requestTokenHeader.substring(7);
         try {
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
         } catch (IllegalArgumentException e) {

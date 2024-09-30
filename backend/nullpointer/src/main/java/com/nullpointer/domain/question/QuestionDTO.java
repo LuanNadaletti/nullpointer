@@ -10,9 +10,10 @@ import java.util.Date;
 
 @Data
 public class QuestionDTO {
-    private long id;
-    @NotNull private UserDTO user;
+
+    private Long id;
+    private UserDTO user;
     @NotEmpty private String title;
     @NotEmpty private String questionText;
-    @NotNull @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") private Date creationDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") private Date creationDate;
 }

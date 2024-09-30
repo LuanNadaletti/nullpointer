@@ -3,7 +3,7 @@ import en from "javascript-time-ago/locale/en";
 
 TimeAgo.addDefaultLocale(en);
 
-const timeAgo = new TimeAgo("br");
+const timeAgo = new TimeAgo("pt_BR");
 
 export function getTimeAgo(): TimeAgo {
   return timeAgo;

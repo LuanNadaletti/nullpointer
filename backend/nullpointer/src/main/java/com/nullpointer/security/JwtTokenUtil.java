@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -20,8 +22,8 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.token-validity}")
-    private long tokenValidity;
+    private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60; // 5 hours
+    public static final String JWT_COOKIE_NAME = "JWT-TOKEN";
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
@@ -48,7 +50,7 @@ public class JwtTokenUtil {
                 .getBody();
     }
 
-    private boolean isTokenExpirated(String token) {
+    public boolean isTokenExpirated(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -63,7 +65,7 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + tokenValidity * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -71,5 +73,21 @@ public class JwtTokenUtil {
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpirated(token));
+    }
+
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        return getUsernameFromToken(extractJwtFromRequest(request));
+    }
+
+    public String extractJwtFromRequest(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (JWT_COOKIE_NAME.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
     }
 }

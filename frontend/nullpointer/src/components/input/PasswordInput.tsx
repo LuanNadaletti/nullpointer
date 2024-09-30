@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-interface Props {
+interface PasswordInputProps {
   id: string;
   label: string;
   placeholder: string;
+  showPasswordStrength: boolean;
 }
 
-const PasswordInput = (props: Props) => {
+const PasswordInput: React.FC<PasswordInputProps> = (props: PasswordInputProps) => {
   const [seePassword, setPassword] = useState(false);
   const [passwordPower, setPasswordPower] = useState(0);
 
@@ -61,7 +62,9 @@ const PasswordInput = (props: Props) => {
         </div>
       </div>
 
-      <PasswordPower power={passwordPower} />
+      {props.showPasswordStrength && (
+        <PasswordPower power={passwordPower} />
+      )}
     </div>
   );
 };
