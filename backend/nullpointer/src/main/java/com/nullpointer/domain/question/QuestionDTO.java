@@ -12,7 +12,7 @@ import java.util.Date;
 public class QuestionDTO {
 
     private Long id;
-    @NotNull private UserDTO user;
+    private UserDTO user;
     @NotEmpty private String title;
     @NotEmpty private String questionText;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") private Date creationDate;

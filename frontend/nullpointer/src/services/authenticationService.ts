@@ -17,7 +17,6 @@ export async function singIn(signInModel: SignInModel): Promise<AuthUser> {
     return {
       id: response.data.id,
       username: response.data.username,
-      token: response.data.token
     };
   } catch (error: any) {
     if (error.response) {
@@ -63,14 +62,11 @@ export async function signOut(): Promise<void> {
  * 
  * @returns true if authenticated, false otherwise
  */
-export async function isAuthenticated(): Promise<boolean> {
+export async function isAuthenticated(): Promise<AuthUser> {
   try {
-    await api.get("/users/check-auth");
-    return true;
+    const user = await api.get("/users/check-auth");
+    return user.data;
   } catch (error: any) {
-    if (error.response && error.response.status === 401) {
-      return false;
-    }
     throw error;
   }
 }

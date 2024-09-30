@@ -1,19 +1,28 @@
 import { createBrowserRouter } from "react-router-dom";
+import AskQuestion from "../pages/AskQuestion";
 import ErrorPage from "../pages/ErrorPage";
-import Root from "../pages/Root";
-import Register from "../pages/Register";
 import Login from "../pages/Login";
 import QuestionList from "../pages/QuestionList";
+import Register from "../pages/Register";
+import Root from "../pages/Root";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       { path: "", element: <QuestionList /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "/questions", element: <QuestionList /> },
+      {
+        path: "/questions/ask", element: (
+          <ProtectedRoute>
+            <AskQuestion />
+          </ProtectedRoute>
+        )
+      }
     ],
   },
 ]);

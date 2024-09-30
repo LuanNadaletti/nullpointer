@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { AuthUser } from '../models/user';
 import { isAuthenticated, signOut, singIn } from '../services/authenticationService';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextProps {
   user: AuthUser | null;
   authenticated: boolean;
+  loading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -14,21 +16,11 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        const auth = await isAuthenticated();
-        setAuthenticated(auth);
-      } catch (error: any) {
-      }
-    }
-    checkAuth();
-  }, []);
+  const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   const login = async (username: string, password: string) => {
     const authenticatedUser = await singIn({ username, password });
-
     setUser(authenticatedUser);
     setAuthenticated(true);
   };
@@ -39,8 +31,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setAuthenticated(false);
   };
 
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const authUser: AuthUser = await isAuthenticated();
+
+        console.log(authUser)
+
+        setAuthenticated(true);
+        setUser(authUser);
+      } catch (error: any) {
+      } finally {
+        setLoading(false);
+      }
+    }
+    checkAuth();
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    login,
+    logout,
+    isAuthenticated: !!user
+  }), [user]);
+
   return (
-    <AuthContext.Provider value={{ user, authenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, authenticated, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

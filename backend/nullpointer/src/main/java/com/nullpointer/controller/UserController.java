@@ -1,10 +1,8 @@
 package com.nullpointer.controller;
 
 import com.nullpointer.config.exception.UserAlreadyExistsException;
-import com.nullpointer.domain.user.JwtRequest;
-import com.nullpointer.domain.user.JwtResponse;
-import com.nullpointer.domain.user.RegistrationRequest;
-import com.nullpointer.domain.user.UserDTO;
+import com.nullpointer.domain.user.*;
+import com.nullpointer.security.JwtTokenUtil;
 import com.nullpointer.service.AuthService;
 import com.nullpointer.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +27,9 @@ public class UserController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
@@ -82,10 +83,13 @@ public class UserController {
 
     @GetMapping("/check-auth")
     public ResponseEntity<?> checkAuth(HttpServletRequest request) {
-        boolean isAuthenticated = authService.checkAuth(request);
+        String username = jwtTokenUtil.getUsernameFromRequest(request);
+        UserDTO userDTO = userService.findByUsername(username);
 
-        if (isAuthenticated) {
-            return ResponseEntity.ok().build();
+        if (userDTO != null) {
+            return ResponseEntity.ok().body(
+                    new AuthUserDTO(userDTO.getId(), userDTO.getUsername())
+            );
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");

@@ -2,6 +2,7 @@ package com.nullpointer.service;
 
 import com.nullpointer.domain.user.JwtRequest;
 import com.nullpointer.domain.user.JwtResponse;
+import com.nullpointer.domain.user.User;
 import com.nullpointer.domain.user.UserDTO;
 import com.nullpointer.security.JwtTokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,17 +48,5 @@ public class AuthService {
                 user.getId(),
                 user.getUsername()
         );
-    }
-
-    public boolean checkAuth(HttpServletRequest request) {
-        String token = jwtTokenUtil.extractJwtFromRequest(request);
-        if (token == null) {
-            return false;
-        }
-
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-        return jwtTokenUtil.validateToken(token, userDetails);
     }
 }

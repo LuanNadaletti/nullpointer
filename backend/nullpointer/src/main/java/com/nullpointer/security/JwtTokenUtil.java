@@ -1,6 +1,5 @@
 package com.nullpointer.security;
 
-import com.nullpointer.domain.user.UserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +50,7 @@ public class JwtTokenUtil {
                 .getBody();
     }
 
-    private boolean isTokenExpirated(String token) {
+    public boolean isTokenExpirated(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -75,6 +73,10 @@ public class JwtTokenUtil {
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpirated(token));
+    }
+
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        return getUsernameFromToken(extractJwtFromRequest(request));
     }
 
     public String extractJwtFromRequest(HttpServletRequest request) {

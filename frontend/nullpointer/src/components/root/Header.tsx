@@ -1,9 +1,21 @@
+import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../contexts/Auth";
+import { findDownloadUrl } from "../../services/fireBaseService";
 
 const Header = () => {
     const { user, authenticated, logout } = useAuth();
+    const [profilePictureUrl, setProfilePictureUrl] = useState<string>("");
+
+    useEffect(() => {
+        const loadProfileUrl = async () => {
+            const url = await findDownloadUrl(user?.id!);
+            setProfilePictureUrl(url);
+        };
+
+        loadProfileUrl();
+    }, [user]);
 
     return (
         <header className="sticky w-full flex-none border-b border-gray-300">
@@ -21,14 +33,16 @@ const Header = () => {
                         </div>
                         {authenticated ? (
                             <div className="flex items-center">
-                                <div className="flex items-center ml-5 content-between flex-wrap">
-                                    <span>{user?.username}</span>
-                                    <img
-                                        src="https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-512.png"
-                                        alt="User avatar"
-                                        className="w-8 h-8 rounded-full mr-2"
-                                    />
-                                </div>
+                                <Link to={`/users/${user?.id}`}>
+                                    <div className="flex items-center ml-5 content-between flex-wrap">
+                                        <img
+                                            src={profilePictureUrl}
+                                            alt="User avatar"
+                                            className="w-8 h-8 rounded-md mr-2"
+                                        />
+                                    </div>
+                                </Link>
+
                                 <button className="ml-4" onClick={logout}>
                                     Logout
                                 </button>

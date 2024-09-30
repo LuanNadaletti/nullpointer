@@ -1,7 +1,7 @@
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Input from "../components/Input";
-import PasswordInput from "../components/PasswordInput";
+import Input from "../components/input/Input";
+import PasswordInput from "../components/input/PasswordInput";
 import SignUpModel from "../models/signUpModel";
 import { signUp } from "../services/authenticationService";
 import { required, validateEmail } from "../validators/validators";

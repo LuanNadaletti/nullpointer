@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { MdError } from "react-icons/md";
 
-interface ErrorProps {
+interface InputErrorProps {
   message: string;
 }
 
-const InputError = (props: ErrorProps) => {
+const InputError: React.FC<InputErrorProps> = (props: InputErrorProps) => {
   return (
     <motion.p
       className="flex items-center gap-1 px-2 font-semibold text-sm text-red-500 bg-red-100 rounded-md"

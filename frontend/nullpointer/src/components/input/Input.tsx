@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { FieldValues, RegisterOptions, useFormContext } from "react-hook-form";
 import InputError from "./InputError";
 
-interface Props {
+interface InputProps {
   id: string;
   label: string;
   type?: string;
@@ -11,7 +11,7 @@ interface Props {
   validation?: RegisterOptions<FieldValues, string> | undefined;
 }
 
-const Input = (props: Props) => {
+const Input: React.FC<InputProps> = (props: InputProps) => {
   const {
     register,
     formState: { errors },

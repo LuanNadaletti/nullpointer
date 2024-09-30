@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../components/Input";
-import PasswordInput from "../components/PasswordInput";
-import { useAuth } from "../contexts/auth";
-import SignInModel from "../models/signInModel";
+import Input from "../components/input/Input";
+import PasswordInput from "../components/input/PasswordInput";
+import { useAuth } from "../contexts/Auth";
 import { required } from "../validators/validators";
 
 const Login: React.FC = () => {
@@ -15,13 +14,8 @@ const Login: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>('');
 
     const onSubmit = formMethods.handleSubmit(async (data: FieldValues) => {
-        const model: SignInModel = {
-            username: data.username,
-            password: data.password
-        };
-
         try {
-            await login(model.username, model.password);
+            await login(data.username, data.password);
             navigate('/');
         } catch (error: any) {
             setErrorMessage(error.message);
@@ -66,7 +60,7 @@ const Login: React.FC = () => {
                             Login
                         </button>
 
-                        {errorMessage !== '' && (
+                        {errorMessage && (
                             <div id="error-message" className="text-red-700 text-center text-sm">{errorMessage}</div>
                         )}
                     </form>

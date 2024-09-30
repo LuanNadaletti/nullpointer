@@ -1,7 +1,12 @@
 package com.nullpointer.controller;
 
+import com.nullpointer.domain.question.AskQuestionDTO;
 import com.nullpointer.domain.question.QuestionDTO;
+import com.nullpointer.domain.user.UserDTO;
+import com.nullpointer.security.JwtTokenUtil;
 import com.nullpointer.service.QuestionService;
+import com.nullpointer.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +22,21 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @PostMapping
+    public ResponseEntity<?> createQuestion(@RequestBody @Valid AskQuestionDTO askQuestionDTO, HttpServletRequest request) {
+        String username = jwtTokenUtil.getUsernameFromToken(jwtTokenUtil.extractJwtFromRequest(request));
+        UserDTO user = userService.findByUsername(username);
+        QuestionDTO question = questionService.createQuestion(askQuestionDTO, user);
+
+        return ResponseEntity.ok(question);
+    }
 
     @GetMapping
     public Page<QuestionDTO> getQuestionsWithPagination(
@@ -36,11 +56,5 @@ public class QuestionController {
     @GetMapping("/{id}")
     public QuestionDTO getQuestionById(@PathVariable Long id) {
         return questionService.findQuestionById(id);
-    }
-
-    @PostMapping
-    public ResponseEntity<?> createQuestion(@RequestBody @Valid QuestionDTO questionDTO) {
-        QuestionDTO question = questionService.createQuestion(questionDTO);
-        return ResponseEntity.ok(question);
     }
 }
