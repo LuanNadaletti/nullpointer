@@ -123,10 +123,6 @@ Para desenvolvimento, você pode executar o frontend e o backend separadamente:
   ./mvnw test
   ```
 
-## Contribuição
-
-Por favor, leia o arquivo CONTRIBUTING.md para detalhes sobre nosso código de conduta e o processo para enviar pull requests.
-
 ## Licença
 
 Este projeto está licenciado sob a Licença GPL 3.0 - veja o arquivo LICENSE.md para detalhes.
