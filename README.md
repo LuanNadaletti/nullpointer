@@ -57,6 +57,10 @@ Siga estes passos para configurar e rodar o projeto em ambiente de desenvolvimen
    ```
    docker-compose up -d
    ```
+   Pode ser necessario rodar o comando com permissão de ADM:
+   ```
+   sudo docker-compose up -d
+   ```
 
 6. Iniciar o Frontend em modo de desenvolvimento:
    ```
