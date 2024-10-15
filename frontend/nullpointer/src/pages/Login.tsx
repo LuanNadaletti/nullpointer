@@ -38,7 +38,7 @@ const Login: React.FC = () => {
                                 id="username"
                                 name="username"
                                 label="Username"
-                                placeholder="Insert your username"
+                                placeholder="Seu usuário"
                                 type="text"
                                 validation={{
                                     required,
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
                             <PasswordInput
                                 id="password"
                                 label="Password"
-                                placeholder="Insert your password"
+                                placeholder="Sua senha"
                                 showPasswordStrength={false}
                             />
                         </div>
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="mt-10 text-sm">
-                Don't have an account? <Link to="/register"><span className="text-blue-400">Register yourself</span></Link>
+                Não tem uma Conta? <Link to="/register"><span className="text-blue-400">Register yourself</span></Link>
             </div>
         </div>
     );
