@@ -55,7 +55,7 @@ const QuestionList = () => {
             <button
               className="min-w-24 h-9 rounded-md text-white bg-cyan-500 hover:bg-cyan-600 text-xs"
             >
-              Ask Question
+              Perguntar
             </button>
           </Link>
         </div>

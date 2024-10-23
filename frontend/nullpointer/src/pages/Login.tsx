@@ -68,7 +68,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="mt-10 text-sm">
-                Não tem uma Conta? <Link to="/register"><span className="text-blue-400">Register yourself</span></Link>
+                Não tem uma Conta? <Link to="/register"><span className="text-blue-400">Cadastre-se</span></Link>
             </div>
         </div>
     );

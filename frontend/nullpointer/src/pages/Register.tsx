@@ -39,8 +39,7 @@ const Register: React.FC = () => {
           >
             <h1 className="text-2xl font-bold">Create your account</h1>
             <p className="text-xs text-slate-400">
-              By clicking “Sign up”, you agree to our terms of service and
-              acknowledge you have read our privacy policy.
+              Ao clicar em “Cadastre-se”, você concorda com nossos termos de serviço e reconhece que leu nossa política de privacidade.
             </p>
 
             <div>
@@ -48,7 +47,7 @@ const Register: React.FC = () => {
                 id="username"
                 name="username"
                 label="Username"
-                placeholder="Insert your username"
+                placeholder="Insira seu nome de usuário"
                 type="text"
                 validation={{
                   required,
@@ -59,7 +58,7 @@ const Register: React.FC = () => {
                 id="email"
                 name="email"
                 label="Email"
-                placeholder="Insert your email"
+                placeholder="Insira seu email"
                 type="text"
                 validation={{
                   required,
@@ -72,7 +71,7 @@ const Register: React.FC = () => {
               <PasswordInput
                 id="password"
                 label="Password"
-                placeholder="Insert your password"
+                placeholder="Insira sua senha"
                 showPasswordStrength={true}
               />
             </div>
@@ -81,7 +80,7 @@ const Register: React.FC = () => {
               onClick={onSubmit}
               className="min-w-full h-8 rounded-md text-white bg-cyan-500 hover:bg-cyan-600 text-xs"
             >
-              Sign up
+              Cadastre-se
             </button>
           </form>
         </FormProvider>
