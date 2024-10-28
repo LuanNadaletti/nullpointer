@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import QuestionModel from "../models/question/question";
 import { getTimeAgoText } from "../utils/timeAgo";
 
@@ -15,9 +16,9 @@ const Question: React.FC<QuestionProps> = ({ question }: QuestionProps) => {
       </div>
 
       <div className="w-full">
-        <a href={`/questions/${question.id}`} className="text-blue-500 text-xl">
-          {question.title}
-        </a>
+        <Link to={`/questions/${question.id}`}>
+          <span className="text-blue-500 text-xl">{question.title}</span>
+        </Link>
 
         <p className="text-sm text-right">
           <a href={`/users/${question.user.id}`} className="text-blue-500">

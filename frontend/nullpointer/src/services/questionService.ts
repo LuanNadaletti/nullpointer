@@ -1,9 +1,10 @@
+import { AxiosError } from "axios";
 import api from "../api/api";
 import AskQuestionModel from "../models/question/askQuestion";
 import Question from "../models/question/question";
 import QuestionFilters from "../models/questionFilters";
 
-export function getAllQuestions(filters: QuestionFilters): Promise<{ content: Question[], totalElements: number }> {
+export async function getAllQuestions(filters: QuestionFilters): Promise<{ content: Question[], totalElements: number }> {
   return api
     .get("/questions", { params: filters })
     .then((response) => {
@@ -20,7 +21,16 @@ export async function askQuestion(question: AskQuestionModel): Promise<string> {
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      throw new Error(error.response.data.message || 'Registration failed');
+      let errorMessage;
+      switch (error.response.status) {
+        case 401:
+          errorMessage = "You must be logged in to ask a question.";
+          break;
+        default:
+          errorMessage = error.response.data?.message || 'An error occurred. Please try again later.';
+          break;
+      }
+      throw new Error(errorMessage);
     } else {
       throw new Error('Network error');
     }

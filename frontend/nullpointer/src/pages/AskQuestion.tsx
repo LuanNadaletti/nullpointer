@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import DiscardConfirmationModal from "../components/ConfirmDialog";
 import AskQuestionModel from "../models/question/askQuestion";
 import { askQuestion } from "../services/questionService";
-import DiscardConfirmationModal from "../components/ConfirmDialog";
 
 const AskQuestion: React.FC = () => {
     const formMethods = useForm();
     const navigate = useNavigate();
 
     const [isDiscardModalOpen, setDiscardModalOpen] = useState<boolean>(false);
+    const [askQuestionError, setAskQuestionError] = useState<string>("");
 
     const titleError = formMethods.formState.errors.title?.message?.toString();
     const bodyError = formMethods.formState.errors.body?.message?.toString();
@@ -24,11 +25,7 @@ const AskQuestion: React.FC = () => {
             await askQuestion(question);
             navigate("/");
         } catch (error: any) {
-            if (error.response) {
-
-            } else {
-                throw error;
-            }
+            setAskQuestionError(error.message);
         }
     });
 

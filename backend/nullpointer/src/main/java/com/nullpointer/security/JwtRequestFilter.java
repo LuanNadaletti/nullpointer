@@ -1,11 +1,14 @@
 package com.nullpointer.security;
 
+import com.nullpointer.config.exception.InvalidJwtTokenException;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
@@ -29,9 +32,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @SneakyThrows
     @Override
-    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain chain) {
 
         Cookie[] cookies = request.getCookies();
         String jwtToken = null;
@@ -54,10 +57,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         try {
             username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-        } catch (IllegalArgumentException e) {
-            logger.error("Unable to get JWT Token", e);
         } catch (ExpiredJwtException e) {
             logger.warn("JWT Token has expired", e);
+        } catch (MalformedJwtException e) {
+            throw new InvalidJwtTokenException("Invalid JWT token");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -10,8 +10,10 @@ const Header = () => {
 
     useEffect(() => {
         const loadProfileUrl = async () => {
-            const url = await findDownloadUrl(user?.id!);
-            setProfilePictureUrl(url);
+            if (user && authenticated) {
+                const url = await findDownloadUrl(user.id);
+                setProfilePictureUrl(url);
+            }
         };
 
         loadProfileUrl();
