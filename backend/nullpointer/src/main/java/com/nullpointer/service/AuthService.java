@@ -2,10 +2,8 @@ package com.nullpointer.service;
 
 import com.nullpointer.domain.user.JwtRequest;
 import com.nullpointer.domain.user.JwtResponse;
-import com.nullpointer.domain.user.User;
 import com.nullpointer.domain.user.UserDTO;
 import com.nullpointer.security.JwtTokenUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
