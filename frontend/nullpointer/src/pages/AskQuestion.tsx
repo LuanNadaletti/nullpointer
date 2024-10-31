@@ -46,7 +46,8 @@ const AskQuestion: React.FC = () => {
                         <p className="text-base"><b>Title</b></p>
 
                         <input type="text"
-                            className="border rounded-md p-2 w-full mt-2 text-xs" placeholder="Write your title here"
+                            className="border rounded-md p-2 w-full mt-2 text-xs"
+                            placeholder="Write your title here"
                             {...formMethods.register("title", {
                                 minLength: {
                                     value: 20,
@@ -66,7 +67,7 @@ const AskQuestion: React.FC = () => {
                     <div className="border w-full rounded-md p-6 text-sm mt-5 bg-white">
                         <p className="text-base"><b>What is your question</b></p>
 
-                        <textarea className="border rounded-md p-2 w-full mt-2 text-xs h-48" minLength={50}
+                        <textarea className="border rounded-md p-2 w-full mt-2 text-xs h-48"
                             {...formMethods.register("body", {
                                 minLength: {
                                     value: 250,
@@ -98,9 +99,11 @@ const AskQuestion: React.FC = () => {
             </FormProvider>
         </div>
 
-        <DiscardConfirmationModal isOpen={isDiscardModalOpen}
+        <DiscardConfirmationModal 
+            isOpen={isDiscardModalOpen}
             onClose={() => setDiscardModalOpen(false)}
-            onConfirm={clearForm} />
+            onConfirm={clearForm} 
+        />
     </div>)
 }
 

@@ -17,7 +17,9 @@ public class QuestionSpecification {
             Optional<String> title,
             Optional<String> author,
             Optional<Date> fromDate,
-            Optional<Date> toDate
+            Optional<Date> toDate,
+            Optional<List<String>> tags,
+            Optional<Boolean> isAnswered
     ) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -33,6 +35,22 @@ public class QuestionSpecification {
 
             toDate.ifPresent(td -> predicates.add(
                     criteriaBuilder.lessThanOrEqualTo(root.get("creationDate"), td)));
+
+            tags.ifPresent(tagList -> {
+                if (!tagList.isEmpty()) {
+                    predicates.add(root.join("tags")
+                            .get("name")
+                            .in(tagList));
+                }
+            });
+
+            isAnswered.ifPresent(answered -> {
+                if (answered) {
+                    predicates.add(criteriaBuilder.isNotEmpty(root.get("answers")));
+                } else {
+                    predicates.add(criteriaBuilder.isEmpty(root.get("answers")));
+                }
+            });
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
