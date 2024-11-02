@@ -25,7 +25,14 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         )
       },
-      { path: "/questions/:id", element: <QuestionView /> },
+      { 
+        path: "/questions/:id", 
+        element: (
+          <ProtectedRoute>
+            <QuestionView />
+          </ProtectedRoute>
+        ) 
+      },
     ],
   },
 ]);
