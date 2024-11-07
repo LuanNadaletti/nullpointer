@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import Root from "../pages/Root";
 import ProtectedRoute from "./ProtectedRoute";
 import QuestionDetails from "../pages/QuestionDetails";
+import Profile from "../pages/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,14 @@ export const router = createBrowserRouter([
         )
       },
       { path: "/questions/:id", element: <QuestionDetails /> },
+      {
+        path: "/users/:id",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        )
+      },
     ],
   },
 ]);

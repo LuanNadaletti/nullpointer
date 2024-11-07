@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkAuth();
   }, [navigate]);
 
-  const value = useMemo(() => ({
+  const contextValue = useMemo(() => ({
     user,
     login,
     logout,

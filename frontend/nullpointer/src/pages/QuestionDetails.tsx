@@ -1,7 +1,6 @@
 import { getTimeAgoText } from "../utils/timeAgo";
 
 const QuestionDetails = () => {
-  // Dados mockados para exemplo visual
   const mockQuestion = {
     id: 1,
     title: "Como resolver o erro NullPointerException em Java?",
@@ -34,7 +33,6 @@ const QuestionDetails = () => {
   return (
     <div className="w-full flex justify-center mt-8">
       <div className="w-3/5">
-        {/* Título da Questão */}
         <div className="border-b pb-4">
           <h1 className="text-2xl font-bold mb-4">{mockQuestion.title}</h1>
           <div className="flex items-center text-sm text-gray-600">
@@ -44,10 +42,8 @@ const QuestionDetails = () => {
           </div>
         </div>
 
-        {/* Corpo da Questão */}
         <div className="mt-6 border-b pb-6">
           <div className="flex">
-            {/* Votos */}
             <div className="flex flex-col items-center mr-6 w-10">
               <button className="text-gray-400 hover:text-gray-600">
                 <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,13 +58,11 @@ const QuestionDetails = () => {
               </button>
             </div>
 
-            {/* Conteúdo da Questão */}
             <div className="flex-1">
               <div className="prose max-w-none">
                 <pre className="whitespace-pre-wrap">{mockQuestion.questionText}</pre>
               </div>
               
-              {/* Informações do Autor */}
               <div className="mt-8 flex justify-end">
                 <div className="bg-blue-50 p-3 rounded-lg">
                   <div className="text-sm text-gray-600">
@@ -90,7 +84,6 @@ const QuestionDetails = () => {
           </div>
         </div>
 
-        {/* Seção de Comentários */}
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-4">Comentários</h2>
           
@@ -109,7 +102,6 @@ const QuestionDetails = () => {
             </div>
           ))}
 
-          {/* Campo para Adicionar Comentário */}
           <div className="mt-6">
             <textarea
               placeholder="Adicione um comentário..."
