@@ -17,7 +17,7 @@ const Header = () => {
         };
 
         loadProfileUrl();
-    }, [user]);
+    }, [user, authenticated]);
 
     return (
         <header className="sticky w-full flex-none border-b border-gray-300">

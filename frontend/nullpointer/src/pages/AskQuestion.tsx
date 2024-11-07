@@ -83,6 +83,10 @@ const AskQuestion: React.FC = () => {
                         <p className="text-xs text-gray-500 mt-3">Describe your problem in as much detail as possible.</p>
                     </div>
 
+                    {askQuestionError && (
+                        <div className="text-red-600 text-sm mt-2">{askQuestionError}</div>
+                    )}
+
                     <div className="w-full mt-5">
                         <div className="flex items-center content-between w-2/3 flex-wrap">
                             <button onClick={submitForm} className="w-16 h-9 rounded-md text-white bg-cyan-500 hover:bg-cyan-600 text-sm">

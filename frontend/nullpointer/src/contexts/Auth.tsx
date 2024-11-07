@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { AuthUser } from '../models/user';
 import { isAuthenticated, signOut, singIn } from '../services/authenticationService';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 interface AuthContextProps {
   user: AuthUser | null;
@@ -53,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     login,
     logout,
-    isAuthenticated: !!user
+    authenticated: !!user
   }), [user]);
 
   return (

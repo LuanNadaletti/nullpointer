@@ -7,9 +7,13 @@ interface FilterProps {
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilterChange, questionsNumber }: FilterProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [title, setTitle] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [author, setAuthor] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sortBy, setSortBy] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [ascending, setAscending] = useState<boolean>(true);
 
   const handleFilterChange = () => {

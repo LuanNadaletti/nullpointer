@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import api from "../api/api";
 import AskQuestionModel from "../models/question/askQuestion";
 import Question from "../models/question/question";

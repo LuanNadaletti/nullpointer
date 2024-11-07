@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Filter from "../components/Filter";
 import Question from "../components/Question";
 import QuestionModel from "../models/question/question";
@@ -85,8 +85,8 @@ const QuestionList = () => {
         ) : (
           <ul>
             {data!.map((data) => (
-              <li>
-                <Question key={data.id} question={data} />
+              <li key={data.id}>
+                <Question question={data} />
               </li>
             ))}
           </ul>
@@ -101,17 +101,6 @@ const fade_filters = {
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 0 },
   transition: { duration: 0.1 },
-};
-
-const shimmerVariants = {
-  shimmer: {
-    backgroundPosition: ["-200%", "200%"],
-    transition: {
-      duration: 2,
-      ease: "easeInOut",
-      repeat: Infinity,
-    },
-  },
 };
 
 const LoadingText = () => {
