@@ -14,7 +14,6 @@ public class AnswerDTO {
 
     private Long id;
     @NotNull private UserDTO user;
-    @NotNull private QuestionDTO question;
     @NotEmpty private String answerText;
     private @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss") Date creationDate;
 }

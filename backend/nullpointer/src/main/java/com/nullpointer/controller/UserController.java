@@ -7,6 +7,7 @@ import com.nullpointer.service.AuthService;
 import com.nullpointer.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +31,17 @@ public class UserController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @GetMapping("/{id}/stats")
+    public ResponseEntity<UserStatsDTO> getUserActivityStats(@PathVariable("id") Long id) {
+        UserStatsDTO stats = userService.getUserActivityStats(id);
+        return ResponseEntity.ok(stats);
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest registrationRequest) {
@@ -93,5 +105,11 @@ public class UserController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+    }
+
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Long userId, @RequestBody UserDTO userDTO) {
+        UserDTO updatedUser = userService.updateUser(userId, userDTO);
+        return ResponseEntity.ok(updatedUser);
     }
 }

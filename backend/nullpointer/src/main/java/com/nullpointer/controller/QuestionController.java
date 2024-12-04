@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -56,5 +57,14 @@ public class QuestionController {
     @GetMapping("/{id}")
     public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.findQuestionById(id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<QuestionDTO>> getQuestionsByUser(@PathVariable Long userId) {
+        List<QuestionDTO> questions = questionService.findQuestionsByUserId(userId);
+        if (questions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(questions);
     }
 }

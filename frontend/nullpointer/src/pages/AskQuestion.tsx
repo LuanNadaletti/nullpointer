@@ -58,7 +58,7 @@ const AskQuestion: React.FC = () => {
                                 }
                             })}
                         />
-                        <div className="text-xs text-red-600">{titleError}</div>
+                        <div className="text-xs text-red-600 font-bold">{titleError}</div>
 
                         <p className="text-xs text-gray-500 mt-3">Think of it as a question you are posing to someone else, and be detailed.</p>
                     </div>
@@ -78,7 +78,7 @@ const AskQuestion: React.FC = () => {
                                 }
                             })} />
 
-                        <div className="text-xs text-red-600">{bodyError}</div>
+                        <div className="text-xs text-red-600 font-bold">{bodyError}</div>
 
                         <p className="text-xs text-gray-500 mt-3">Describe your problem in as much detail as possible.</p>
                     </div>

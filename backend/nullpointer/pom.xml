@@ -189,7 +189,7 @@
                 <configuration>
                     <user>postgres</user>
                     <password>postgres</password>
-                    <url>jdbc:postgresql://localhost:5432/nullpointer_db</url>
+                    <url>jdbc:postgresql://localhost:5432/nullpointer</url>
                     <cleanDisabled>false</cleanDisabled>
                 </configuration>
             </plugin>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Input from "../components/input/Input";
 import PasswordInput from "../components/input/PasswordInput";
 import { useAuth } from "../contexts/Auth";
@@ -9,6 +9,7 @@ import { required } from "../validators/validators";
 const Login: React.FC = () => {
     const formMethods = useForm();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { login } = useAuth();
     const [errorMessage, setErrorMessage] = useState<string>('');
@@ -16,7 +17,9 @@ const Login: React.FC = () => {
     const onSubmit = formMethods.handleSubmit(async (data: FieldValues) => {
         try {
             await login(data.username, data.password);
-            navigate('/');
+
+            const redirectPath = location.state?.from || '/';
+            navigate(redirectPath);
         } catch (error: any) {
             setErrorMessage(error.message);
         }
@@ -68,7 +71,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="mt-10 text-sm">
-                Não tem uma Conta? <Link to="/register"><span className="text-blue-400">Register yourself</span></Link>
+                Don't have an account? <Link to="/register"><span className="text-blue-400">Register yourself</span></Link>
             </div>
         </div>
     );

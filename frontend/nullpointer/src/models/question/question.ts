@@ -1,3 +1,4 @@
+import AnswerModel from "../answer/answerModel";
 import { User } from "../user";
 
 export default interface QuestionModel {
@@ -6,4 +7,5 @@ export default interface QuestionModel {
   questionText: string;
   creationDate: string;
   user: User;
+  answers: AnswerModel[];
 }

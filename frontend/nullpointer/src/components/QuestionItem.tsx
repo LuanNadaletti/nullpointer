@@ -6,13 +6,11 @@ interface QuestionProps {
   question: QuestionModel;
 }
 
-const Question: React.FC<QuestionProps> = ({ question }: QuestionProps) => {
+const QuestionItem: React.FC<QuestionProps> = ({ question }: QuestionProps) => {
   return (
     <div className="border-b-2 border-b-slate-100 p-4 flex">
       <div className="w-24 text-gray-500 text-sm mr-3 text-right">
-        <p>0 views</p>
-        <p>0 answers</p>
-        <p>0 votes</p>
+        <p>{question.answers.length} answers</p>
       </div>
 
       <div className="w-full">
@@ -33,4 +31,4 @@ const Question: React.FC<QuestionProps> = ({ question }: QuestionProps) => {
   );
 };
 
-export default Question;
+export default QuestionItem;

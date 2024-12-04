@@ -21,7 +21,6 @@ public class SpringConfig {
                 new PropertyMap<AnswerDTO, Answer>() {
                     @Override
                     protected void configure() {
-                        map(source.getQuestion(), destination.getQuestion());
                         map(source.getUser(), destination.getUser());
                     }
                 }

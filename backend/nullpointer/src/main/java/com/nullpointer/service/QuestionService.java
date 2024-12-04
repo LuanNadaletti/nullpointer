@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -32,6 +33,16 @@ public class QuestionService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public QuestionDTO createQuestion(AskQuestionDTO questionDTO, UserDTO userDTO) {
+        User user = modelMapper.map(userDTO, User.class);
+        Question question = modelMapper.map(questionDTO, Question.class);
+        question.setUser(user);
+        question.setCreationDate(new Date());
+        question = questionRepository.save(question);
+
+        return modelMapper.map(question, QuestionDTO.class);
+    }
+
     public List<Question> findAllQuestions() {
         return questionRepository.findAll();
     }
@@ -43,6 +54,14 @@ public class QuestionService {
         }
 
         return modelMapper.map(question.get(), QuestionDTO.class);
+    }
+
+    public List<QuestionDTO> findQuestionsByUserId(Long userId) {
+        List<Question> questions = questionRepository.findByUserId(userId);
+
+        return questions.stream()
+                .map(question -> modelMapper.map(question, QuestionDTO.class))
+                .collect(Collectors.toList());
     }
 
     public Page<QuestionDTO> findQuestionsWithPagination(
@@ -65,15 +84,5 @@ public class QuestionService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
         return questionRepository.findAll(spec, pageable).map(question -> modelMapper.map(question, QuestionDTO.class));
-    }
-
-    public QuestionDTO createQuestion(AskQuestionDTO questionDTO, UserDTO userDTO) {
-        User user = modelMapper.map(userDTO, User.class);
-        Question question = modelMapper.map(questionDTO, Question.class);
-        question.setUser(user);
-        question.setCreationDate(new Date());
-        question = questionRepository.save(question);
-
-        return modelMapper.map(question, QuestionDTO.class);
     }
 }

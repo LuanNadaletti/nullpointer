@@ -1,14 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { IoFilterSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import Filter from "../components/Filter";
-import Question from "../components/Question";
+import QuestionItem from "../components/QuestionItem";
 import QuestionModel from "../models/question/question";
 import QuestionFilters from "../models/questionFilters";
 import { getAllQuestions } from "../services/questionService";
-import { Link } from "react-router-dom";
-import { IoFilterSharp } from "react-icons/io5";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
 
 const QuestionList = () => {
   const [questionCounter, setQuestionCounter] = useState<number>(0);
@@ -19,25 +18,19 @@ const QuestionList = () => {
   });
   const [showFilter, setShowFilter] = useState<boolean>(false);
 
-  const fetchQuestions = async (): Promise<QuestionModel[]> => {
-    return getAllQuestions(filters)
-      .then((questionsResponse) => {
-        setQuestionCounter(questionsResponse.totalElements | 0);
-        return questionsResponse.content;
-      })
-      .catch((error) => {
-        return error;
-      });
-  };
-
-  const { data, error, isLoading, isError } = useQuery<QuestionModel[], Error>({
-    queryKey: ["questions"],
-    queryFn: fetchQuestions,
+  const { data = [], error, isLoading, isError } = useQuery<QuestionModel[], Error>({
+    queryKey: ['questions', filters],
+    queryFn: () => getAllQuestions(filters).then((res) => res.content || []),
     refetchOnWindowFocus: false,
-  });
+    initialData: [],
+  })
+
+  useEffect(() => {
+    setQuestionCounter(data.length);
+  }, [data])
 
   if (isError) {
-    return <div>{error.message}</div>
+    return <div>Failed to load questions: {error.message}</div>;
   }
 
   return (
@@ -84,9 +77,9 @@ const QuestionList = () => {
           <LoadingText />
         ) : (
           <ul>
-            {data!.map((data) => (
+            {data.map((data) => (
               <li>
-                <Question key={data.id} question={data} />
+                <QuestionItem key={data.id} question={data} />
               </li>
             ))}
           </ul>
@@ -101,17 +94,6 @@ const fade_filters = {
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 0 },
   transition: { duration: 0.1 },
-};
-
-const shimmerVariants = {
-  shimmer: {
-    backgroundPosition: ["-200%", "200%"],
-    transition: {
-      duration: 2,
-      ease: "easeInOut",
-      repeat: Infinity,
-    },
-  },
 };
 
 const LoadingText = () => {

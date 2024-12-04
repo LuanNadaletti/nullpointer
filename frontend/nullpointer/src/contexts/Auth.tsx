@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthUser } from '../models/user';
 import { isAuthenticated, signOut, singIn } from '../services/authenticationService';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 interface AuthContextProps {
   user: AuthUser | null;
@@ -48,13 +47,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     checkAuth();
   }, [navigate]);
-
-  const value = useMemo(() => ({
-    user,
-    login,
-    logout,
-    isAuthenticated: !!user
-  }), [user]);
 
   return (
     <AuthContext.Provider value={{ user, authenticated, loading, login, logout }}>

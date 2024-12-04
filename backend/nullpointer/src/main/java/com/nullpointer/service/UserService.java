@@ -1,9 +1,6 @@
 package com.nullpointer.service;
 
-import com.nullpointer.domain.user.RegistrationRequest;
-import com.nullpointer.domain.user.Role;
-import com.nullpointer.domain.user.User;
-import com.nullpointer.domain.user.UserDTO;
+import com.nullpointer.domain.user.*;
 import com.nullpointer.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +32,24 @@ public class UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
+    public UserDTO updateUser(Long id, UserDTO userDTO) {
+        User user = userRepository.findById(id).get();
+        user.setUsername(userDTO.getUsername());
+        userRepository.save(user);
+        return modelMapper.map(user, UserDTO.class);
+    }
+
+    public UserDTO findById(long id) {
+        User user = userRepository.findById(id).get();
+        return modelMapper.map(user, UserDTO.class);
+    }
+
     public UserDTO findByUsername(String username) {
         User user = userRepository.findByUsername(username).get();
         return modelMapper.map(user, UserDTO.class);
+    }
+
+    public UserStatsDTO getUserActivityStats(Long userId) {
+        return userRepository.findUserStatsDTO(userId);
     }
 }

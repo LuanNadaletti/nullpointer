@@ -1,5 +1,6 @@
 package com.nullpointer.domain.question;
 
+import com.nullpointer.domain.answer.Answer;
 import com.nullpointer.domain.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -38,4 +40,11 @@ public class Question {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
     private Date creationDate;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Answer> answers;
+
+    public Question(Long id) {
+        this.id = id;
+    }
 }

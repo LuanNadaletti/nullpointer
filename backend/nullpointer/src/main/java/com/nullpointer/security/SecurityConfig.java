@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/users/authenticate", "users/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/questions").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/questions/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/check-auth").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -50,7 +51,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Content-Length", "Authorization", "Cache-Control", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true);
 
