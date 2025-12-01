@@ -1,5 +1,7 @@
 package com.nullpointer.service;
 
+import com.nullpointer.domain.mapper.QuestionMapper;
+import com.nullpointer.domain.mapper.UserMapper;
 import com.nullpointer.domain.question.AskQuestionDTO;
 import com.nullpointer.domain.question.Question;
 import com.nullpointer.domain.question.QuestionDTO;
@@ -7,8 +9,6 @@ import com.nullpointer.domain.user.User;
 import com.nullpointer.domain.user.UserDTO;
 import com.nullpointer.repository.QuestionRepository;
 import com.nullpointer.specification.QuestionSpecification;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,23 +24,27 @@ import java.util.stream.Collectors;
 @Service
 public class QuestionService {
 
-    @Autowired
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+    private final QuestionSpecification questionSpecification;
+    private final QuestionMapper questionMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private QuestionSpecification questionSpecification;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public QuestionService(QuestionRepository questionRepository, QuestionSpecification questionSpecification,
+                           QuestionMapper questionMapper, UserMapper userMapper) {
+        this.questionRepository = questionRepository;
+        this.questionSpecification = questionSpecification;
+        this.questionMapper = questionMapper;
+        this.userMapper = userMapper;
+    }
 
     public QuestionDTO createQuestion(AskQuestionDTO questionDTO, UserDTO userDTO) {
-        User user = modelMapper.map(userDTO, User.class);
-        Question question = modelMapper.map(questionDTO, Question.class);
+        User user = userMapper.fromDTO(userDTO);
+        Question question = questionMapper.fromAskQuestionDTO(questionDTO);
         question.setUser(user);
         question.setCreationDate(new Date());
         question = questionRepository.save(question);
 
-        return modelMapper.map(question, QuestionDTO.class);
+        return questionMapper.fromEntity(question);
     }
 
     public List<Question> findAllQuestions() {
@@ -53,14 +57,14 @@ public class QuestionService {
             throw new RuntimeException("Question not found with id: " + id);
         }
 
-        return modelMapper.map(question.get(), QuestionDTO.class);
+        return questionMapper.fromEntity(question.get());
     }
 
     public List<QuestionDTO> findQuestionsByUserId(Long userId) {
         List<Question> questions = questionRepository.findByUserId(userId);
 
         return questions.stream()
-                .map(question -> modelMapper.map(question, QuestionDTO.class))
+                .map(questionMapper::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -83,6 +87,6 @@ public class QuestionService {
         }
 
         Pageable pageable = PageRequest.of(page, size, sort);
-        return questionRepository.findAll(spec, pageable).map(question -> modelMapper.map(question, QuestionDTO.class));
+        return questionRepository.findAll(spec, pageable).map(questionMapper::fromEntity);
     }
 }
