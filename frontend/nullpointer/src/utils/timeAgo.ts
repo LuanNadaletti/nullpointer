@@ -9,6 +9,6 @@ export function getTimeAgo(): TimeAgo {
   return timeAgo;
 }
 
-export function getTimeAgoText(date: string): string {
+export const getTimeAgoText = (date: string) => {
   return getTimeAgo().format(new Date(date));
 }

@@ -8,7 +8,7 @@ interface AnswerProps {
 const Answer: React.FC<AnswerProps> = ({ answer }) => {
     return (
         <div className="border-b py-4">
-          <p className="text-gray-700">{answer.answerText}</p>
+          <p className="text-gray-700 max-w-full whitespace-pre-wrap break-words">{answer.answerText}</p>
           <div className="text-sm text-gray-500 mt-2">
             Answered by <Link to={`/users/${answer.user.id}`} className="text-blue-500">{answer.user.username}</Link> on{" "}
             {new Date(answer.creationDate).toLocaleDateString()}

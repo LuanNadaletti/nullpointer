@@ -13,7 +13,7 @@ const Profile = () => {
     const { user: authUser } = useAuth();
     const { id } = useParams<{ id: string }>();
 
-    const { data: user, isLoading, isError } = useQuery<User, Error>({
+    const { data: user } = useQuery<User, Error>({
         queryKey: ['user', id],
         queryFn: () => getUserById(id!),
         refetchOnWindowFocus: false,
@@ -46,7 +46,7 @@ const Profile = () => {
         };
 
         loadProfilePicture();
-    }, [user]);
+    }, [user, authUser]);
 
     return (
         <div className="w-full flex justify-center mt-8">

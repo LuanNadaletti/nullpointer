@@ -21,14 +21,15 @@ import java.util.Optional;
 @RequestMapping("questions")
 public class QuestionController {
 
-    @Autowired
-    private QuestionService questionService;
+    private final QuestionService questionService;
+    private final UserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public QuestionController(QuestionService questionService, UserService userService, JwtTokenUtil jwtTokenUtil) {
+        this.questionService = questionService;
+        this.userService = userService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @PostMapping
     public ResponseEntity<?> createQuestion(@RequestBody @Valid AskQuestionDTO askQuestionDTO, HttpServletRequest request) {

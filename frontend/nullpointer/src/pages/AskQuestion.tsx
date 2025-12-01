@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import {FieldValues, FormProvider, useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
 import DiscardConfirmationModal from "../components/ConfirmDialog";
 import AskQuestionModel from "../models/question/askQuestion";
-import { askQuestion } from "../services/questionService";
+import {askQuestion} from "../services/questionService";
 
 const AskQuestion: React.FC = () => {
     const formMethods = useForm();
@@ -21,12 +21,11 @@ const AskQuestion: React.FC = () => {
             questionText: data.body,
         };
 
-        try {
-            await askQuestion(question);
-            navigate("/");
-        } catch (error: any) {
-            setAskQuestionError(error.message);
-        }
+        askQuestion(question)
+            .then(() => navigate("/"))
+            .catch(error => {
+                setAskQuestionError(error.message);
+            });
     });
 
     const handleDiscardClick = () => {
@@ -46,17 +45,18 @@ const AskQuestion: React.FC = () => {
                         <p className="text-base"><b>Title</b></p>
 
                         <input type="text"
-                            className="border rounded-md p-2 w-full mt-2 text-xs" placeholder="Write your title here"
-                            {...formMethods.register("title", {
-                                minLength: {
-                                    value: 20,
-                                    message: "Title must be at least 20 characters."
-                                },
-                                required: {
-                                    value: true,
-                                    message: "Title is required."
-                                }
-                            })}
+                               className="border rounded-md p-2 w-full mt-2 text-xs" placeholder="Write your title here"
+                               maxLength={255}
+                               {...formMethods.register("title", {
+                                   minLength: {
+                                       value: 20,
+                                       message: "Title must be at least 20 characters."
+                                   },
+                                   required: {
+                                       value: true,
+                                       message: "Title is required."
+                                   }
+                               })}
                         />
                         <div className="text-xs text-red-600 font-bold">{titleError}</div>
 
@@ -95,6 +95,8 @@ const AskQuestion: React.FC = () => {
                         </div>
                     </div>
                 </form>
+
+                <div className="text-xs text-red-600 font-bold">{askQuestionError}</div>
             </FormProvider>
         </div>
 

@@ -23,14 +23,15 @@ import java.net.URI;
 @RequestMapping("users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AuthService authService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public UserController(UserService userService, AuthService authService, JwtTokenUtil jwtTokenUtil) {
+        this.userService = userService;
+        this.authService = authService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {

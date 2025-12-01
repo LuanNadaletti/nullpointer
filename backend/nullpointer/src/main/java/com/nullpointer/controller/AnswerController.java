@@ -8,7 +8,6 @@ import com.nullpointer.service.AnswerService;
 import com.nullpointer.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("answers")
 public class AnswerController {
 
-    @Autowired
-    private AnswerService answerService;
+    private final AnswerService answerService;
+    private final UserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    public AnswerController(AnswerService answerService, UserService userService, JwtTokenUtil jwtTokenUtil) {
+        this.answerService = answerService;
+        this.userService = userService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @PostMapping
     public ResponseEntity<?> answerQuestion(@RequestBody @Valid AnswerQuestionDTO answerDTO, HttpServletRequest request) {

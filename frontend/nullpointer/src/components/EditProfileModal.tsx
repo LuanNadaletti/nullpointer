@@ -13,10 +13,9 @@ interface EditProfileModalProps {
 }
 
 const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, userId, initialData }) => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string>("");
 
-    const { register, handleSubmit, reset } = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: initialData
     });
 
@@ -25,7 +24,6 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose, us
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setSelectedFile(file);
             setPreviewUrl(URL.createObjectURL(file));
         }
     };
